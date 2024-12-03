@@ -1,10 +1,13 @@
 ﻿using MagicVillaApI2.Models;
+using MagicVillaApI2.Models.DTO;
+using System.Linq.Expressions;
 
 namespace MagicVillaApI2.Repositories.Interfaces
 {
-    public interface IVillaRepository
+    public interface IVillaRepository :IGenericRepository<Villa>
     {
-        public List<Villa> GetAll();
-        public Villa GetById(int id);
+        public Task Update(Villa v);
+
+
     }
 }

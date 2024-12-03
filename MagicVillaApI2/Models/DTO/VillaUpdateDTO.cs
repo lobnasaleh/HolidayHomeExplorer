@@ -2,9 +2,9 @@
 
 namespace MagicVillaApI2.Models.DTO
 {
-    public class VillaDTO
+    public class VillaUpdateDTO
     {
-        //8
+        //howa 3amlo required bas ana msh 3yza
         public int Id { get; set; }
        
         [Required]
@@ -13,8 +13,11 @@ namespace MagicVillaApI2.Models.DTO
         public string Details { get; set; }
         [Required]
         public double Rate { get; set; }
+        [Required]
         public int Occupancy { get; set; }
+        [Required]
         public int Sqft { get; set; }
+        [Required]
         public string ImageUrl { get; set; }
         public string Amenity { get; set; }
 

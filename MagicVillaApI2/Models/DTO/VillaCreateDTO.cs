@@ -1,17 +1,21 @@
-﻿namespace MagicVillaApI2.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MagicVillaApI2.Models.DTO
 {
-    public class Villa
+    public class VillaCreateDTO
     {
-        //0
-        public int Id { get; set; }
+        //8
+       
+        [Required]
+        [MaxLength(30)]
         public string Name { get; set; }
         public string Details { get; set; }
+        [Required]
         public double Rate { get; set; }
-        public int Sqft { get; set; }
         public int Occupancy { get; set; }
+        public int Sqft { get; set; }
         public string ImageUrl { get; set; }
         public string Amenity { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedDate { get; set; }
+
     }
 }

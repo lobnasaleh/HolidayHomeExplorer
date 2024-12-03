@@ -3,6 +3,8 @@ using MagicVillaApI2.Data;
 using MagicVillaApI2.Repositories;
 using MagicVillaApI2.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.JsonPatch;
+using Serilog;
 
 namespace MagicVillaApI2
 {
@@ -14,7 +16,16 @@ namespace MagicVillaApI2
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+
+            /*  Log.Logger = new LoggerConfiguration().MinimumLevel.Debug()//ba2olo ana 3yza eh noo3 el haga ely ttketb 
+                  .WriteTo.File("log/mylog.txt",rollingInterval:RollingInterval.Day).CreateLogger();//when a new file should be created //infinte will use same file forever
+
+
+              builder.Host.UseSerilog();  //3yza astakhdem serilog badal el default console logging
+  */
+            builder.Services.AddAutoMapper(typeof(MappingConfig));
+
+            builder.Services.AddControllers().AddNewtonsoftJson();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

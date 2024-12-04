@@ -5,6 +5,7 @@ using MagicVillaApI2.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.JsonPatch;
 using Serilog;
+using MagicVillaApI2.Models;
 
 namespace MagicVillaApI2
 {
@@ -38,7 +39,7 @@ namespace MagicVillaApI2
             });
 
             builder.Services.AddScoped<IVillaRepository, VillaRepository>();
-
+            builder.Services.AddScoped<IVillaNumberRepository, VillaNumberRepository>();
 
 
 

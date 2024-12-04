@@ -13,5 +13,6 @@
         public string Amenity { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedDate { get; set; }
+        public virtual IEnumerable<VillaNumber>? VillaNumbers { get; set; }=new List<VillaNumber>();
     }
 }

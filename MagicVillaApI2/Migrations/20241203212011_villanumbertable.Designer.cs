@@ -4,6 +4,7 @@ using MagicVillaApI2.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MagicVillaApI2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241203212011_villanumbertable")]
+    partial class villanumbertable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -148,30 +151,9 @@ namespace MagicVillaApI2.Migrations
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("VillaId")
-                        .HasColumnType("int");
-
                     b.HasKey("VillaNo");
 
-                    b.HasIndex("VillaId");
-
                     b.ToTable("VillaNumbers");
-                });
-
-            modelBuilder.Entity("MagicVillaApI2.Models.VillaNumber", b =>
-                {
-                    b.HasOne("MagicVillaApI2.Models.Villa", "Villa")
-                        .WithMany("VillaNumbers")
-                        .HasForeignKey("VillaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Villa");
-                });
-
-            modelBuilder.Entity("MagicVillaApI2.Models.Villa", b =>
-                {
-                    b.Navigation("VillaNumbers");
                 });
 #pragma warning restore 612, 618
         }

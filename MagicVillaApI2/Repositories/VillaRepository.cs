@@ -25,7 +25,7 @@ namespace MagicVillaApI2.Repositories
             v.UpdatedDate = DateTime.Now;
 
            _context.Update(v);
-           await _context.SaveChangesAsync();
+         //  await _context.SaveChangesAsync();
         }
       
     }

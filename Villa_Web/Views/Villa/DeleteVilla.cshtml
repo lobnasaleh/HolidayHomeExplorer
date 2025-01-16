@@ -1,0 +1,91 @@
+﻿@model Villa_Web.Models.DTO.VillaDTO
+
+<form asp-action="DeleteVilla" asp-controller="Villa">
+
+
+    <div class="container border-3 p-3">
+        <h1 class="text-primary">Delete Villa</h1>
+        <!--ana ha3ooz ab3at el id beta3 el villa ely et3mlha update lel action ely hy3ml save-->
+
+        <input hidden asp-for="Id" /> <!--keda keda ma3aya kol haga 3an el entity-->
+        </hr>
+        <div class="row">
+       
+            <div class=" col-2">
+                <label asp-for="Name" class="control-label"></label>
+            </div>
+            <div class=" col-10 pb-3">
+                <input asp-for="Name" disabled class="form-control pt-2" />
+             
+            </div>
+
+            <div class="col-2">
+
+                <label asp-for="Details" class="control-label"></label>
+            </div>
+            <div class="col-10 pb-3">
+                <textarea asp-for="Details" disabled class="form-control pt-2" rows="5"></textarea>
+              
+            </div>
+
+            <div class=" col-2">
+                <label asp-for="Rate" class="control-label"></label>
+            </div>
+            <div class=" col-10 pb-3">
+                <input asp-for="Rate" disabled class="form-control pt-2" />
+            
+            </div>
+
+            <div class="col-2">
+
+                <label asp-for="Occupancy" class="control-label"></label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="Occupancy" disabled class="form-control pt-2" />
+             
+            </div>
+
+            <div class=" col-2">
+                <label asp-for="Sqft" class="control-label"></label>
+            </div>
+            <div class=" col-10 pb-3">
+                <input asp-for="Sqft" disabled class="form-control pt-2" />
+          
+            </div>
+
+            <div class="col-2">
+
+                <label asp-for="ImageUrl" class="control-label"></label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="ImageUrl" disabled class="form-control pt-2" />
+           
+            </div>
+
+            <div class="col-2">
+
+                <label asp-for="Amenity" class="control-label"></label>
+            </div>
+            <div class="col-10 pb-3">
+                <textarea asp-for="Amenity" disabled class="form-control pt-2" rows="5"></textarea>
+          
+            </div>
+            <div class="col-5 offset-2">
+                <a asp-action="Index" asp-controller="Villa" class="btn btn-primary form-control">Back</a>
+            </div>
+            <div class="col-5 ">
+                <input type="submit" value="Delete" asp-action="DeleteVilla" asp-controller="Villa" class="btn btn-danger form-control" />
+            </div>
+
+        </div>
+
+
+
+
+
+    </div>
+</form>
+
+@section scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

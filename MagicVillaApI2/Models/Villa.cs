@@ -1,9 +1,12 @@
-﻿namespace MagicVillaApI2.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MagicVillaApI2.Models
 {
     public class Villa
     {
-        //0
+        
         public int Id { get; set; }
+        [Required]  
         public string Name { get; set; }
         public string Details { get; set; }
         public double Rate { get; set; }

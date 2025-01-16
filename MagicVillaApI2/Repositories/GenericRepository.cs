@@ -29,7 +29,7 @@ namespace MagicVillaApI2.Repositories
             return res;
         }
 
-        public async Task<List<T>> GetAllAsyncWithExpression(Expression<Func<T, bool>>? filter = null)
+        public async Task<List<T>> GetAllAsyncWithExpression(Expression<Func<T, bool>>? filter = null,string? includeProperties =null)
         {
             IQueryable<T> query = dbSet ;
             if (filter != null)
@@ -37,10 +37,18 @@ namespace MagicVillaApI2.Repositories
 
                 query = query.Where(filter);
             }
+            if (includeProperties != null)//law kan 3ayez ye3ml include l aktr men property separated b comma
+            {
+                //hay3ml split 3ala el comma wa law fe empty enetries hayshelhom
+                foreach (var includeprop in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeprop);
+                }
+            }
 
             return await query.ToListAsync();
         }
-        public async Task<T> GetWithExpressionAsync(Expression<Func<T, bool>> filter = null, bool tracked = true)
+        public async Task<T> GetWithExpressionAsync(Expression<Func<T, bool>> filter = null, bool tracked = true, string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
             if (filter != null)
@@ -53,6 +61,14 @@ namespace MagicVillaApI2.Repositories
             {
 
                 query = query.AsNoTracking();
+            }
+            if (includeProperties != null)//law kan 3ayez ye3ml include l aktr men property separated b comma
+            {
+                //hay3ml split 3ala el comma wa law fe empty enetries hayshelhom
+                foreach (var includeprop in includeProperties.Split(new char[] {','},StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query=query.Include(includeprop);
+                }
             }
             return await query.FirstOrDefaultAsync();
         }

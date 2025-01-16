@@ -150,7 +150,7 @@ namespace MagicVillaApI2.Controllers
                 //check if not created before 
                 if (await _villaRepository.ExistsByNameAsync(villafromreq.Name))
                 {
-                    ModelState.AddModelError("", "Villa already exists");
+                    ModelState.AddModelError("Errors", "Villa already exists");
                     response.StatusCode = HttpStatusCode.BadRequest;
 
                     return BadRequest(ModelState);

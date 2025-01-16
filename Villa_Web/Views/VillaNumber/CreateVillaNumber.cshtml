@@ -1,0 +1,58 @@
+﻿@model Villa_Web.Models.VM.VillaNumberCreateVM
+<!--lama el object ykoon bayz-->
+
+<form asp-action="CreateVillaNumber" asp-controller="VillaNumber">
+ 
+
+    <div class="container border-3 p-3">
+        <h1 class="text-primary">Create Villa Number</h1>
+        </hr>
+        <div class="row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class=" col-2">
+                <label asp-for="villaNumber.VillaNo" class="control-label"></label>
+            </div>
+            <div class=" col-10 pb-3">
+                <input asp-for="villaNumber.VillaNo" class="form-control pt-2" />
+                <span asp-validation-for="villaNumber.VillaNo" class="text-danger"></span>
+            </div>
+
+            <div class="col-2">
+
+                <label asp-for="villaNumber.VillaId" class="control-label"></label>
+            </div>
+            <div class="col-10 pb-3">
+                <select asp-for="villaNumber.VillaId" asp-items="@Model.villaList" class="form-control pt-2">
+<option disabled selected >--Select Villa--</option>
+                </select>
+                
+                <span asp-validation-for="villaNumber.VillaId" class="text-danger"></span>
+            </div>
+
+            <div class="col-2">
+                <label asp-for="villaNumber.SpecialDetails" class="control-label"></label>
+            </div>
+            <div class="col-10 pb-3">
+                <textarea asp-for="villaNumber.SpecialDetails" class="form-control pt-2" rows="5"></textarea>
+                <span asp-validation-for="villaNumber.SpecialDetails" class="text-danger"></span>
+            </div>
+            <div class="col-5 offset-2">
+                <a asp-action="Index" asp-controller="VillaNumber" class="btn btn-primary form-control">Back</a>
+            </div>
+            <div class="col-5 ">
+                <input type="submit" asp-action="CreateVillaNumber" asp-controller="VillaNumber" class="btn btn-success form-control" />
+            </div>
+
+        </div>
+
+
+
+
+
+    </div>
+</form>
+
+@section scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

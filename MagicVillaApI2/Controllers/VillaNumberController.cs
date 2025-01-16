@@ -12,7 +12,7 @@ namespace MagicVillaApI2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VillaNumberController : ControllerBase
+    public class VillaNumberApiController : ControllerBase
     {
         private readonly IVillaNumberRepository villanorepo;
 
@@ -20,7 +20,7 @@ namespace MagicVillaApI2.Controllers
 
         private readonly IMapper mapper;
         protected APIResponse response;
-        public VillaNumberController(IVillaNumberRepository villanorepo, IMapper mapper, IVillaRepository villarepo)
+        public VillaNumberApiController(IVillaNumberRepository villanorepo, IMapper mapper, IVillaRepository villarepo)
         {
             this.villanorepo = villanorepo;
             this.mapper = mapper;
@@ -35,7 +35,7 @@ namespace MagicVillaApI2.Controllers
         {//<ActionResult<List<VillaNumberDTO>>>
             try
             {
-                List<VillaNumber> vs = await villanorepo.GetAllAsyncWithExpression();
+                List<VillaNumber> vs = await villanorepo.GetAllAsyncWithExpression(includeProperties:"Villa");
 
                 if (vs == null) {
                     response.IsSuccess = false;
@@ -48,7 +48,7 @@ namespace MagicVillaApI2.Controllers
                 response.StatusCode = HttpStatusCode.OK;
                 response.Result = villanumberslist;
 
-                return Ok(vs);
+                return Ok(response);
             }
             catch (Exception ex) {
                 response.IsSuccess = false;
@@ -119,13 +119,13 @@ namespace MagicVillaApI2.Controllers
                 if (await villanorepo.GetWithExpressionAsync(vn => vn.VillaNo == vDfromreq.VillaNo)!=null)
                 {
 
-                    ModelState.AddModelError("", "duplicate Villa Number");
+                    ModelState.AddModelError("Errors", "duplicate Villa Number");
                     return BadRequest(ModelState);
                 }
                 //ata2ked bas en el id ely 3yz yrefernece 3aleeh already mawgood 3shan mayatal3shn moshkela 3nd el foreign key
                 if (await villarepo.GetWithExpressionAsync(v=>v.Id== vDfromreq.VillaId) == null)
                 {
-                    ModelState.AddModelError("Custom Error", "No Villa With this Id");
+                    ModelState.AddModelError("Errors", "No Villa With this Id");
                     return BadRequest(ModelState);
                 }
 
@@ -246,7 +246,6 @@ namespace MagicVillaApI2.Controllers
 
             return response;
          }
-      
 
     }
 }

@@ -53,11 +53,40 @@ namespace Villa_Web.Services
 
                HttpResponseMessage apiResponse = null;
                apiResponse = await client.SendAsync(message); //add breakpoint here 
+                var apiContent = await apiResponse.Content.ReadAsStringAsync();
+
 
                 //Read content and deserialize the result 3shan yeb2a ma3aya object 22dar ata3amel ma3ah
-                var apiContent =await apiResponse.Content.ReadAsStringAsync();
-                var APIresponse=JsonConvert.DeserializeObject<T>(apiContent);// <T> hya noo3 el data ely gaya fel response
+                try
+                { 
+                APIResponse APIresp=JsonConvert.DeserializeObject<APIResponse>(apiContent);// <T> hya noo3 el data ely gaya fel response
+                    if (apiResponse.StatusCode == System.Net.HttpStatusCode.BadRequest || apiResponse.StatusCode == System.Net.HttpStatusCode.NotFound) {
+                        APIresp.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                        APIresp.IsSuccess=false;
+
+                        var res = JsonConvert.SerializeObject(APIresp);
+                        var retuenobj=JsonConvert.DeserializeObject<T>(res);
+                        return retuenobj;
+                    }
+                }
+                catch (Exception e) {
+                var exceptionresponse=JsonConvert.DeserializeObject<T>(apiContent);// <T> hya noo3 el data ely gaya fel response
+                    return exceptionresponse;
+
+                }
+                var APIresponse = JsonConvert.DeserializeObject<T>(apiContent);
                 return APIresponse;
+
+
+
+
+
+
+
+
+
+
+
             }
             catch (Exception ex)
             {

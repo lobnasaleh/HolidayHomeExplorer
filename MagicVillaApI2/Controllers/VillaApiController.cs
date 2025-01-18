@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
 using AutoMapper;
 using System.Net;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MagicVillaApI2.Controllers
 {
@@ -26,8 +27,11 @@ namespace MagicVillaApI2.Controllers
             this._logger = _logger;
         }
         [HttpGet]
+        [Authorize]//3ady sawa2 user aw admin
         [ProducesResponseType(statusCode: 200)]
         [ProducesResponseType(statusCode: 404)]
+        [ProducesResponseType(statusCode: 401)]//unauthorized
+        [ProducesResponseType(statusCode: 403)]//forbidden
         public async Task<ActionResult<APIResponse>> getAllVillas()
         {
             try
@@ -78,9 +82,13 @@ namespace MagicVillaApI2.Controllers
 
 
         [HttpGet("{id:int}", Name = "getVillaById")]
+        [Authorize(Roles ="admin")]
         [ProducesResponseType(statusCode: 200)]
         [ProducesResponseType(statusCode: 400)]//bad request
         [ProducesResponseType(statusCode: 404)]//not found
+        [ProducesResponseType(statusCode: 401)]//unauthorized
+        [ProducesResponseType(statusCode: 403)]//forbidden
+
 
         public async Task<ActionResult<APIResponse>> getVillaById(int id)
         {
@@ -135,8 +143,11 @@ namespace MagicVillaApI2.Controllers
 
         }
         [HttpPost]
+        [Authorize(Roles ="admin")]
         [ProducesResponseType(statusCode: 201)]//created
         [ProducesResponseType(statusCode: 400)]//bad request
+        [ProducesResponseType(statusCode: 401)]//unauthorized
+        [ProducesResponseType(statusCode: 403)]//forbidden
         public async Task<ActionResult<APIResponse>> CreateVilla([FromBody] VillaCreateDTO villafromreq)
         {
             try
@@ -190,9 +201,13 @@ namespace MagicVillaApI2.Controllers
      }
 
         [HttpDelete("{id:int}")]
+        [Authorize(Roles ="CUSTOM")]
+
         [ProducesResponseType(statusCode: 400)]//Bad Request
         [ProducesResponseType(statusCode: 404)]//Not Found
         [ProducesResponseType(statusCode: 200)]
+        [ProducesResponseType(statusCode: 401)]//unauthorized
+        [ProducesResponseType(statusCode: 403)]//forbidden
         // [ProducesResponseType(statusCode: 204)]//No Content haraha3 ok 3shan nocontent mlhash parameters ab3t feeha response
         public async Task<ActionResult<APIResponse>> RemoveVilla(int id) {
             try
@@ -229,6 +244,8 @@ namespace MagicVillaApI2.Controllers
         [ProducesResponseType(statusCode: 200)]
         [ProducesResponseType(statusCode: 400)]
         [ProducesResponseType(statusCode: 404)]
+        [ProducesResponseType(statusCode: 401)]//unauthorized
+        [ProducesResponseType(statusCode: 403)]//forbidden
 
         public async Task<ActionResult<APIResponse>> UpdateVilla(int id,[FromBody] VillaUpdateDTO newupdate)
         {
@@ -284,6 +301,8 @@ namespace MagicVillaApI2.Controllers
         [ProducesResponseType(statusCode: 204)]
         [ProducesResponseType(statusCode: 400)]
         [ProducesResponseType(statusCode: 404)]
+        [ProducesResponseType(statusCode: 401)]//unauthorized
+        [ProducesResponseType(statusCode: 403)]//forbidden
         public async Task<IActionResult> PatchVillaUpdate(int id,JsonPatchDocument<VillaUpdateDTO> jsonPatchDocument)
         {
             if (jsonPatchDocument == null)

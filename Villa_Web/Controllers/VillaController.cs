@@ -45,10 +45,14 @@ namespace Villa_Web.Controllers
                 var response = await villaService.CreateAsync<APIResponse>(ofromreq);//betb3at lel client yendah 3ala el api
                 if (response != null && response.IsSuccess)
                 {
+                    TempData["success"] = "Villa Created Successfully";
+
                     return RedirectToAction(nameof(Index));
                 }
-            } 
+            }
             //invalid model
+            TempData["error"] = "Error encountered";
+
             return View(ofromreq);
         }
         [HttpGet]
@@ -75,10 +79,14 @@ namespace Villa_Web.Controllers
                 var response = await villaService.UpdateAsync<APIResponse>(ofromreq);//betb3at lel client yendah 3ala el api
                 if (response != null && response.IsSuccess)
                 {
+                    TempData["success"] = "Villa Updated Successfully";
+
                     return RedirectToAction(nameof(Index));
                 }
             }
             //invalid model
+            TempData["error"] = "Error encountered";
+
             return View(ofromreq);
         }
 
@@ -105,10 +113,14 @@ namespace Villa_Web.Controllers
                 var response = await villaService.DeleteAsync<APIResponse>(ofromreq.Id);//betb3at lel client yendah 3ala el api
                 if (response != null && response.IsSuccess)
                 {
-                    return RedirectToAction(nameof(Index));
+                TempData["success"] = "Villa Deleted Successfully";
+
+                return RedirectToAction(nameof(Index));
                 }
-            
+
             //invalid model
+            TempData["error"] = "Error encountered";
+
             return View(ofromreq);
         }
     }

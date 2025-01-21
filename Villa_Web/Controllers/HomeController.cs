@@ -5,6 +5,7 @@ using System.Diagnostics;
 using Villa_Web.Models;
 using Villa_Web.Models.DTO;
 using Villa_Web.Services.IServices;
+using VillaUtility;
 
 namespace Villa_Web.Controllers
 {
@@ -21,7 +22,7 @@ namespace Villa_Web.Controllers
         {
             List<VillaDTO> lis = new List<VillaDTO>();
 
-            var response = await villaService.GetAllAsync<APIResponse>();//betb3at lel client yendah 3ala el api
+            var response = await villaService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.SessionToken));//betb3at lel client yendah 3ala el api
             if (response != null && response.IsSuccess)
             {
                 lis = JsonConvert.DeserializeObject<List<VillaDTO>>(Convert.ToString(response.Result));

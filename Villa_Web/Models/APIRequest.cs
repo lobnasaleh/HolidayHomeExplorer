@@ -11,5 +11,7 @@ namespace Villa_Web.Models
         public string URL { get; set; }//el url ely by3ml 3aleeh request
 
         public object Data { get; set; }//law post request hab3at data
+
+        public string Token { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
@@ -8,6 +9,7 @@ using Villa_Web.Models.DTO;
 using Villa_Web.Models.VM;
 using Villa_Web.Services;
 using Villa_Web.Services.IServices;
+using VillaUtility;
 
 namespace Villa_Web.Controllers
 {
@@ -28,7 +30,7 @@ namespace Villa_Web.Controllers
         {
             List<VillaNumberDTO> lis = new List<VillaNumberDTO>();
 
-            var response = await villaNumberService.GetAllAsync<APIResponse>();//betb3at lel client yendah 3ala el api
+            var response = await villaNumberService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.SessionToken));//betb3at lel client yendah 3ala el api
             if (response != null && response.IsSuccess)
             {
                 lis = JsonConvert.DeserializeObject<List<VillaNumberDTO>>(Convert.ToString(response.Result));
@@ -38,9 +40,10 @@ namespace Villa_Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateVillaNumber()
         {
-            var response = await villaService.GetAllAsync<APIResponse>();
+            var response = await villaService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.SessionToken));
             VillaNumberCreateVM villaNumVm = new VillaNumberCreateVM();
 
             if (response != null && response.IsSuccess)
@@ -59,12 +62,13 @@ namespace Villa_Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateVillaNumber(VillaNumberCreateVM ofromreq)
         {
             if (ModelState.IsValid)
             {
 
-                var response = await villaNumberService.CreateAsync<APIResponse>(ofromreq.villaNumber);//betb3at lel client yendah 3ala el api
+                var response = await villaNumberService.CreateAsync<APIResponse>(ofromreq.villaNumber, HttpContext.Session.GetString(SD.SessionToken));//betb3at lel client yendah 3ala el api
                 if (response != null && response.IsSuccess)
                 {
                     TempData["success"] = "Villa Created Successfully";
@@ -80,7 +84,7 @@ namespace Villa_Web.Controllers
                 }
 
                 //3EDTHA TANY 3SHAN LAW HASAL ERROR 
-                var resp = await villaService.GetAllAsync<APIResponse>();
+                var resp = await villaService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.SessionToken));
 
 
                 if (resp != null && resp.IsSuccess)
@@ -102,11 +106,12 @@ namespace Villa_Web.Controllers
             
         }
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> UpdateVillaNumber(int villaNo)
         {
             VillaNumberUpdateVM villaNumVm = new VillaNumberUpdateVM();
 
-            var response = await villaNumberService.GetAsync<APIResponse>(villaNo);
+            var response = await villaNumberService.GetAsync<APIResponse>(villaNo, HttpContext.Session.GetString(SD.SessionToken));
             if (response != null && response.IsSuccess)
             {
                 //deserialize y3ny ahawel el json l c# object we henna haddedet noo3 el object ely 3yzah eno villadto
@@ -115,7 +120,7 @@ namespace Villa_Web.Controllers
 
 
             }
-          var response2 = await villaService.GetAllAsync<APIResponse>();
+          var response2 = await villaService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.SessionToken));
 
             if (response2 != null && response2.IsSuccess)
             {
@@ -133,12 +138,13 @@ namespace Villa_Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> UpdateVillaNumber(VillaNumberUpdateVM ofromreq)
         {
             if (ModelState.IsValid)
             {
 
-                var response = await villaNumberService.UpdateAsync<APIResponse>(ofromreq.villaNumber);//betb3at lel client yendah 3ala el api
+                var response = await villaNumberService.UpdateAsync<APIResponse>(ofromreq.villaNumber, HttpContext.Session.GetString(SD.SessionToken));//betb3at lel client yendah 3ala el api
                 if (response != null && response.IsSuccess)
                 {
                     TempData["success"] = "Villa Updated Successfully";
@@ -155,7 +161,7 @@ namespace Villa_Web.Controllers
                 }
 
                 //3EDTHA TANY 3SHAN LAW HASAL ERROR 
-                var resp = await villaService.GetAllAsync<APIResponse>();
+                var resp = await villaService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.SessionToken));
 
 
                 if (resp != null && resp.IsSuccess)
@@ -176,11 +182,12 @@ namespace Villa_Web.Controllers
             return View(ofromreq);
         }
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteVillaNumber(int villaNo)
         {
             VillaNumberDeleteVM villaNumVm = new VillaNumberDeleteVM();
 
-            var response = await villaNumberService.GetAsync<APIResponse>(villaNo);
+            var response = await villaNumberService.GetAsync<APIResponse>(villaNo, HttpContext.Session.GetString(SD.SessionToken));
             if (response != null && response.IsSuccess)
             {
                 //deserialize y3ny ahawel el json l c# object we henna haddedet noo3 el object ely 3yzah eno villadto
@@ -189,7 +196,7 @@ namespace Villa_Web.Controllers
 
 
             }
-            response = await villaService.GetAllAsync<APIResponse>();
+            response = await villaService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.SessionToken));
 
             if (response != null && response.IsSuccess)
             {
@@ -207,11 +214,12 @@ namespace Villa_Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteVillaNumber(VillaNumberDeleteVM ofromreq)
         {
 
 
-            var response = await villaNumberService.DeleteAsync<APIResponse>(ofromreq.villaNumber.VillaNo);//betb3at lel client yendah 3ala el api
+            var response = await villaNumberService.DeleteAsync<APIResponse>(ofromreq.villaNumber.VillaNo, HttpContext.Session.GetString(SD.SessionToken));//betb3at lel client yendah 3ala el api
             if (response != null && response.IsSuccess)
             {
                 TempData["success"] = "Villa Deleted Successfully";

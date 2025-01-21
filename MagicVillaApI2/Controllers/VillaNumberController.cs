@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿
+using AutoMapper;
 using MagicVillaApI2.Models;
 using MagicVillaApI2.Models.DTO;
 using MagicVillaApI2.Repositories;
@@ -10,8 +11,12 @@ using System.Net;
 
 namespace MagicVillaApI2.Controllers
 {
+   // [Route("api/v{version:apiVersion}/[controller]")]
+    
     [Route("api/[controller]")]
     [ApiController]
+   // [ApiVersion("1.0")]
+   // [ApiVersion("2.0")]
     public class VillaNumberApiController : ControllerBase
     {
         private readonly IVillaNumberRepository villanorepo;
@@ -28,9 +33,22 @@ namespace MagicVillaApI2.Controllers
             this.villarepo = villarepo;
         }
 
+    /*    [HttpGet]
+        [MapToApiVersion("1.0")]
+        public IActionResult GetHello()
+        {
+            return Content("hello,world");
+        }
+*/
+
         [HttpGet]
+      //  [MapToApiVersion("2.0")]
+
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        //[ResponseCache(Duration = 30)]
+        [ResponseCache(CacheProfileName ="Default30")]
+
         public async Task<ActionResult<APIResponse>> GetAllVillaNumbers()
         {//<ActionResult<List<VillaNumberDTO>>>
             try

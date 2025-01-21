@@ -11,6 +11,9 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Asp.Versioning;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MagicVillaApI2
 {
@@ -29,7 +32,26 @@ namespace MagicVillaApI2
 
               builder.Host.UseSerilog();  //3yza astakhdem serilog badal el default console logging
   */
+
+           /* builder.Services.AddApiVersioning(options =>
+            {
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+
+            });*/
+
+           /* builder.Services.AddVersionedApiExplorer(options =>
+            { options.GroupNameFormat = "'v'VVV"; });
+*/
+            builder.Services.AddEndpointsApiExplorer(); // This is needed for minimal APIs
             builder.Services.AddAutoMapper(typeof(MappingConfig));
+           
+            builder.Services.AddResponseCaching();
+
+            builder.Services.AddControllers(Options => {
+                Options.CacheProfiles.Add("Default30", new CacheProfile() { Duration = 30 });
+            
+            });
 
             builder.Services.AddControllers().AddNewtonsoftJson();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -64,8 +86,6 @@ namespace MagicVillaApI2
     });
             });
 
-
-
             builder.Services.AddDbContext<ApplicationDbContext>(option =>
             {
                 option.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
@@ -75,6 +95,21 @@ namespace MagicVillaApI2
             builder.Services.AddScoped<IVillaNumberRepository, VillaNumberRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
 
+          
+
+
+            /*
+                        builder.Services.AddApiVersioning(options =>
+                        {
+                            options.AssumeDefaultVersionWhenUnspecified = true;
+                            options.DefaultApiVersion = new Asp.Versioning.ApiVersion(1, 0);
+                            options.ReportApiVersions = true;
+                        })
+                .AddApiExplorer(options =>
+                {
+                    options.GroupNameFormat = "'v'VVV"; // Formats the group names by version, e.g., v1, v2
+                    options.SubstituteApiVersionInUrl = true; // Replaces the {version} in the route templates
+                });*/
             builder.Services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

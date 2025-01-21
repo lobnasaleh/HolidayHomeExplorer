@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using System.Text;
 using Villa_Web.Models;
 using Villa_Web.Services.IServices;
@@ -52,7 +53,15 @@ namespace Villa_Web.Services
                 }
 
                HttpResponseMessage apiResponse = null;
-               apiResponse = await client.SendAsync(message); //add breakpoint here 
+                //a3ml authorization bel token el mab3oota ba2a
+                if (!string.IsNullOrEmpty(apiRequest.Token))
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiRequest.Token);
+                }
+
+
+
+               apiResponse = await client.SendAsync(message); //add breakpoint here //contains the body of the HTTP response.
                 var apiContent = await apiResponse.Content.ReadAsStringAsync();
 
 
@@ -76,14 +85,6 @@ namespace Villa_Web.Services
                 }
                 var APIresponse = JsonConvert.DeserializeObject<T>(apiContent);
                 return APIresponse;
-
-
-
-
-
-
-
-
 
 
 

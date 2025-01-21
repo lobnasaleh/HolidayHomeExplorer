@@ -32,12 +32,26 @@ namespace MagicVillaApI2.Controllers
         [ProducesResponseType(statusCode: 404)]
         [ProducesResponseType(statusCode: 401)]//unauthorized
         [ProducesResponseType(statusCode: 403)]//forbidden
-        public async Task<ActionResult<APIResponse>> getAllVillas()
+        public async Task<ActionResult<APIResponse>> getAllVillas([FromQuery] int occupancy,
+            [FromQuery] string? search)
         {
             try
             {
 
-                List<Villa> vsFromdb = await _villaRepository.GetAllAsyncWithExpression();
+                List<Villa> vsFromdb;
+                if (occupancy > 0) { //law matb3atetsh byt3melha bind b 0
+
+                    vsFromdb = await _villaRepository.GetAllAsyncWithExpression(v=>v.Occupancy==occupancy);
+                }
+                else
+                {
+                    vsFromdb = await _villaRepository.GetAllAsyncWithExpression();
+                }
+                if (!string.IsNullOrEmpty(search))
+                {
+                    vsFromdb=vsFromdb.Where(u=>u.Name.ToLower().Contains(search.ToLower())).ToList();
+                }
+
                 if (vsFromdb == null)
                 {
                     response.StatusCode=HttpStatusCode.NotFound;
@@ -82,7 +96,7 @@ namespace MagicVillaApI2.Controllers
 
 
         [HttpGet("{id:int}", Name = "getVillaById")]
-        [Authorize(Roles ="admin")]
+       // [Authorize(Roles ="admin")]
         [ProducesResponseType(statusCode: 200)]
         [ProducesResponseType(statusCode: 400)]//bad request
         [ProducesResponseType(statusCode: 404)]//not found
@@ -201,7 +215,8 @@ namespace MagicVillaApI2.Controllers
      }
 
         [HttpDelete("{id:int}")]
-        [Authorize(Roles ="CUSTOM")]
+        [Authorize(Roles = "admin")]
+
 
         [ProducesResponseType(statusCode: 400)]//Bad Request
         [ProducesResponseType(statusCode: 404)]//Not Found
@@ -240,6 +255,7 @@ namespace MagicVillaApI2.Controllers
             return response;
 
         }
+        [Authorize(Roles = "admin")]
         [HttpPut("{id:int}")]
         [ProducesResponseType(statusCode: 200)]
         [ProducesResponseType(statusCode: 400)]
@@ -297,6 +313,7 @@ namespace MagicVillaApI2.Controllers
             return response;
 
         }
+        [Authorize(Roles = "admin")]
         [HttpPatch("{id:int}")]
         [ProducesResponseType(statusCode: 204)]
         [ProducesResponseType(statusCode: 400)]

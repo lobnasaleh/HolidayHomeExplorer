@@ -19,54 +19,64 @@ namespace Villa_Web.Services
 
         }
 
-        public async Task<T> CreateAsync<T>(VillaNumberCreateDTO entity)
+        public async Task<T> CreateAsync<T>(VillaNumberCreateDTO entity, string token)
         {
            APIRequest request = new APIRequest() { 
                
                APIType=SD.APIType.POST,
                Data=entity,
-               URL= _configuration["ServiceUrls:VillaAPI"] + "/api/VillaNumberApi"
+               URL= _configuration["ServiceUrls:VillaAPI"] + "/api/VillaNumberApi",
+               Token = token
+
            };
             return await SendAsync<T>(request);
         }
 
-        public async Task<T> DeleteAsync<T>(int id)
+        public async Task<T> DeleteAsync<T>(int id,string token)
         {
             APIRequest request = new APIRequest()
             {
                 APIType = SD.APIType.DELETE,
-                URL = _configuration["ServiceUrls:VillaAPI"] + "/api/VillaNumberApi/" + id
+                URL = _configuration["ServiceUrls:VillaAPI"] + "/api/VillaNumberApi/" + id,
+                Token = token
+
             };
             return await SendAsync<T>(request);
         }
 
-        public async Task<T> GetAllAsync<T>()
+        public async Task<T> GetAllAsync<T>(string token)
         {
             APIRequest request = new APIRequest()
             {
                 APIType = SD.APIType.GET,
-                URL = _configuration["ServiceUrls:VillaAPI"] + "/api/VillaNumberApi"
+                URL = _configuration["ServiceUrls:VillaAPI"] + "/api/VillaNumberApi",
+                Token = token
+
             };
             return await  SendAsync<T>(request);
         }
 
-        public async Task<T> GetAsync<T>(int id)
+        public async Task<T> GetAsync<T>(int id, string token)
         {
             APIRequest request = new APIRequest()
             {
                 APIType = SD.APIType.GET,
-                URL = _configuration["ServiceUrls:VillaAPI"] + "/api/VillaNumberApi/" + id
+                URL = _configuration["ServiceUrls:VillaAPI"] + "/api/VillaNumberApi/" + id,
+                Token = token
+
             };
             return await SendAsync<T>(request);
         }
 
-        public async Task<T> UpdateAsync<T>(VillaNumberUpdateDTO entity)
+        public async Task<T> UpdateAsync<T>(VillaNumberUpdateDTO entity, string token)
         {
             APIRequest request = new APIRequest()
             {
                 APIType = SD.APIType.PUT,
                 Data = entity,
-                URL = _configuration["ServiceUrls:VillaAPI"] + "/api/VillaNumberApi/" + entity.VillaNo
+                URL = _configuration["ServiceUrls:VillaAPI"] + "/api/VillaNumberApi/" + entity.VillaNo,
+                Token = token
+
             };
             return await SendAsync<T>(request);
         }

@@ -1,9 +1,10 @@
 ﻿using MagicVillaApI2.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace MagicVillaApI2.Data
 {
-    public class ApplicationDbContext:DbContext
+    public class ApplicationDbContext:IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -11,6 +12,8 @@ namespace MagicVillaApI2.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+             base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Villa>().HasData(
                 new Villa
                 {
@@ -70,8 +73,9 @@ namespace MagicVillaApI2.Data
 
 
                 );
-           // base.OnModelCreating(modelBuilder);
         }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+
         public DbSet<LocalUser> LocalUsers { get; set; }
 
         public DbSet<Villa> Villas { get; set; }

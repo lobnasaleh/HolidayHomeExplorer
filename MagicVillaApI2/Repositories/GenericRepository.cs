@@ -29,14 +29,25 @@ namespace MagicVillaApI2.Repositories
             return res;
         }
 
-        public async Task<List<T>> GetAllAsyncWithExpression(Expression<Func<T, bool>>? filter = null,string? includeProperties =null)
+        public async Task<List<T>> GetAllAsyncWithExpression(Expression<Func<T, bool>>? filter = null,string? includeProperties =null, 
+            int pagesize = 0, int pagenumber = 1)
         {
             IQueryable<T> query = dbSet ;
             if (filter != null)
             {
-
                 query = query.Where(filter);
             }
+
+            if (pagesize > 0)
+            {
+                if (pagesize > 100)
+                {
+                    pagesize = 100;
+                }
+                query=query.Skip(pagesize*(pagenumber-1)).Take(pagesize);
+            }
+
+
             if (includeProperties != null)//law kan 3ayez ye3ml include l aktr men property separated b comma
             {
                 //hay3ml split 3ala el comma wa law fe empty enetries hayshelhom

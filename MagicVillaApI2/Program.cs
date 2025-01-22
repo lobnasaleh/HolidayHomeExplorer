@@ -14,6 +14,7 @@ using Microsoft.OpenApi.Models;
 using Asp.Versioning;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 
 namespace MagicVillaApI2
 {
@@ -91,12 +92,12 @@ namespace MagicVillaApI2
                 option.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
             });
 
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
             builder.Services.AddScoped<IVillaRepository, VillaRepository>();
             builder.Services.AddScoped<IVillaNumberRepository, VillaNumberRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
-
-          
-
 
             /*
                         builder.Services.AddApiVersioning(options =>

@@ -6,9 +6,9 @@ namespace MagicVillaApI2.Repositories.Interfaces
     public interface IUserRepository
     {
       Task<LoginResponseDTO> Login (LoginRequestDTO loginRequestDTO);
-      Task<LocalUser> Register(RegisterationRequestDTO registerationRequestDTO);
+      Task<UserDTO> Register(RegisterationRequestDTO registerationRequestDTO);
 
-        bool IsUniqueUser(string username);
+      bool IsUniqueUser(string username);
 
 
     }
